@@ -62,3 +62,51 @@ FROM VENTAS;
 INSERT INTO VENTAS (Id_factura, Id_sucursal, Direccion, Provincia, Localidad, CP, Mail, Telefono, CUIT, IVA, Id_clientes, Codigo_Zona, Condicion_de_pago, Fecha, Descuentos, Observasiones, Id_producto, Precio_x_unidad, TotalNeto, Cantidad, Tipo_de_Factura)
 VALUES (1, 1, 'RIVADAVIA 660', 'SALTA', 'CAPITAL', 4400, 'kalim_salta@gmail.com', '0387-4224255', '24-35897856-4', 'AR', 1, 2, 'CANCELADO', '2023-08-24', '0%', '-', 1, 560.00, 12880.00, 23, 'A');
 
+SELECT *
+FROM `TI - PERSONAL DE SUCURSALES`;
+
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI - PERSONAL DE SUCURSALES`
+-- -----------------------------------------------------
+INSERT INTO `TI - PERSONAL DE SUCURSALES` (Id_personal, Id_sucursal)
+VALUES (1, 1);
+
+SELECT *
+FROM `TI- PROVEEDORES DE SUCURSALES`;
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI- PROVEEDORES DE SUCURSALES`
+-- -----------------------------------------------------
+INSERT INTO `TI- PROVEEDORES DE SUCURSALES` (Id_sucursal, Id_proveedor)
+VALUES(1, 1);
+
+SELECT *
+FROM `TI - CLIENTES DE SUCURSALES`;
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI - CLIENTES DE SUCURSALES`
+-- -----------------------------------------------------
+INSERT INTO`TI - CLIENTES DE SUCURSALES` (Id_sucursal, Id_clientes)
+VALUES (1, 1);
+
+SELECT *
+FROM `TI - PRODUCTOS DE SUCURSALES`;
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI - PRODUCTOS DE SUCURSALES`
+-- -----------------------------------------------------
+INSERT INTO`TI - PRODUCTOS DE SUCURSALES` (Id_sucursal, Id_producto)
+VALUES (1, 1);
+
+SELECT *
+FROM `TI - PRODUCTOS VENTAS`;
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI - PRODUCTOS VENTAS`
+-- -----------------------------------------------------
+INSERT INTO`TI - PRODUCTOS VENTAS` (Id_producto, Id_factura)
+VALUES (1, 1);
+
+SELECT *
+FROM `TI -PRODUCTOS PEDIDOS`;
+-- -----------------------------------------------------
+-- Table `Kalimera Distribution`.`TI -PRODUCTOS PEDIDOS`
+-- -----------------------------------------------------
+INSERT INTO `TI -PRODUCTOS PEDIDOS` (Id_producto, Id_pedido)
+VALUES (1, 1);
