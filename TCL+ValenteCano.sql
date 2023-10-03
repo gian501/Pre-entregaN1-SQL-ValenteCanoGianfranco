@@ -45,9 +45,9 @@ VALUES (15, 'SCHWEPPES 1.50L', 1, 'BEBIDAS', 2, 900.00, 6, 50, '0%', 230, 'STOCK
 INSERT INTO PRODUCTOS (Id_producto, Nombre_producto, Codigo_rubro, Nombre_rubro, Id_proveedor, Precio_x_unidad, Unidades_x_Bulto, Unidades_x_Pallets, Descuentos, Stock, Nombre_area) 
 VALUES (16, 'SCHWEPPES 2.25L', 1, 'BEBIDAS', 2, 1400.00, 6, 50, '0%', 560, 'STOCK');
 INSERT INTO PRODUCTOS (Id_producto, Nombre_producto, Codigo_rubro, Nombre_rubro, Id_proveedor, Precio_x_unidad, Unidades_x_Bulto, Unidades_x_Pallets, Descuentos, Stock, Nombre_area) 
-VALUES (17, 'VIVERE SUAVIZANTE CLASICO 3.0L', 3, 'LIMPIEZA', 2, 3200.00, 10, 200, '0%', 400, 'STOCK');
+VALUES (17, 'VIVERE SUAVIZANTE CLASICO 3.0L', 2, 'LIMPIEZA', 3, 3200.00, 10, 200, '0%', 400, 'STOCK');
 INSERT INTO PRODUCTOS (Id_producto, Nombre_producto, Codigo_rubro, Nombre_rubro, Id_proveedor, Precio_x_unidad, Unidades_x_Bulto, Unidades_x_Pallets, Descuentos, Stock, Nombre_area) 
-VALUES (18, 'VIVERE SUAVIZANTE LAVANDA 3.0L', 3, 'LIMPIEZA', 2, 3300.00, 10, 200, '0%', 250, 'STOCK');
+VALUES (18, 'VIVERE SUAVIZANTE LAVANDA 3.0L', 2, 'LIMPIEZA', 3, 3300.00, 10, 200, '0%', 250, 'STOCK');
 -- INSERTAMOS SAVEPOINT LOTE_1
 savepoint lote_2;
 -- Sentencia de eliminación del savepoint de los primeros 4 registros insertados
