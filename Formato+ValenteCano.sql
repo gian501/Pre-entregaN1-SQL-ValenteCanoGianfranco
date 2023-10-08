@@ -1,4 +1,6 @@
-
+-- -----------------------------------------------------
+-- Funciones
+-- -----------------------------------------------------
 -- -----------------------------------------------------
 -- Funcion 1 - Calcular el Total Neto
 -- -----------------------------------------------------
@@ -10,8 +12,7 @@ BEGIN
     SET TotalN = (unidades * precio);
    
 RETURN TotalN;
-END
-//
+END//;
 
 -- -----------------------------------------------------
 -- Funcion 2 - Cantidad de Productos del Proveedor 
@@ -22,10 +23,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `fn_productos_proveedor`(Id_proveedor
 BEGIN
 
 RETURN (SELECT  count(*) from Productos p where p.Id_proveedor = Id_proveedor);
-END;//
-
-
-
+END//;
 -- -----------------------------------------------------
 -- Funcion 3 - ANTIGUEDAD
 -- -----------------------------------------------------
@@ -35,4 +33,4 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `fn_antiguedad`(Id_personal int) RETU
 BEGIN
 
 RETURN(select timestampdiff(Year, Fecha_de_ingreso, CURDATE()) from PERSONAL p where p.Id_personal = Id_personal);
-END;//
+END//;

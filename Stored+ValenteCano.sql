@@ -1,4 +1,7 @@
 -- -----------------------------------------------------
+-- Storerd Procedure 
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Storerd Procedure - BUSQUEDA PRODUCTOS
 -- -----------------------------------------------------
 delimiter // 
@@ -7,9 +10,7 @@ BEGIN
 select Id_producto, Nombre_producto, Id_proveedor, Precio_x_unidad, Stock
 from PRODUCTOS
 WHERE Nombre_producto LIKE concat('%',Nombre_product,'%');
-END;
-delimiter // 
-
+END//;
 -- -----------------------------------------------------
 -- Storerd Procedure - Agregar un nuevo miembro al personal
 -- -----------------------------------------------------
@@ -19,8 +20,7 @@ IN CUIT VARCHAR(45), IN Areas TEXT(45),IN F_ingreso DATETIME, IN CBU INT , IN Id
 BEGIN
 INSERT INTO PERSONAL (Nombre_personal,Direccion,Provincia,Localidad,CP,Mail,Telefono,CUIT,Nombre_area,Fecha_de_ingreso,CBU,Id_sucursal) 
 VALUES (Nom, Direc,Prov,Locali,CP,Mail,Tel,CUIT,Areas,F_ingreso,CBU,Id_sucursal);
-END;
-delimiter // 
+END//;
 
 -- -----------------------------------------------------
 -- Storerd Procedure - Precio Prodcutos
@@ -31,13 +31,12 @@ BEGIN
 select count(*)
 from PRODUCTOS
 WHERE Precio_x_unidad LIKE concat(precio);
-END;
-delimiter // 
+END//; 
 
 -- -----------------------------------------------------
 -- Storerd Procedure - Ordenacion clientes de forma ascendente o descendente
 -- -----------------------------------------------------
-delimiter // 
+delimiter //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ordenacion_cliente`(in Campo varchar(50), in asc_desc text(4))
 BEGIN
 	set @or_asc_desc = asc_desc;
@@ -50,8 +49,8 @@ BEGIN
     PREPARE runSQL from @clausula;
     EXECUTE runSQL;
     DEALLOCATE PREPARE runSQL;
-END;
-delimiter // 
+END//
+delimiter ;
 
 
 

@@ -610,6 +610,7 @@ INSERT INTO `TI -PRODUCTOS PEDIDOS` (Id_producto, Id_pedido) VALUES (10, 7);
 -- -----------------------------------------------------
 -- Vistas 
 -- -----------------------------------------------------
+
 -- -----------------------------------------------------
 -- Vista 1 Productos de cada proveedor.
 -- -----------------------------------------------------
@@ -678,8 +679,7 @@ BEGIN
     SET TotalN = (unidades * precio);
    
 RETURN TotalN;
-END
-//
+END//;
 
 -- -----------------------------------------------------
 -- Funcion 2 - Cantidad de Productos del Proveedor 
@@ -690,10 +690,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `fn_productos_proveedor`(Id_proveedor
 BEGIN
 
 RETURN (SELECT  count(*) from Productos p where p.Id_proveedor = Id_proveedor);
-END;//
-
-
-
+END//;
 -- -----------------------------------------------------
 -- Funcion 3 - ANTIGUEDAD
 -- -----------------------------------------------------
@@ -703,9 +700,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `fn_antiguedad`(Id_personal int) RETU
 BEGIN
 
 RETURN(select timestampdiff(Year, Fecha_de_ingreso, CURDATE()) from PERSONAL p where p.Id_personal = Id_personal);
-END;//
-
-
+END//;
 -- -----------------------------------------------------
 -- Storerd Procedure 
 -- -----------------------------------------------------
@@ -718,9 +713,7 @@ BEGIN
 select Id_producto, Nombre_producto, Id_proveedor, Precio_x_unidad, Stock
 from PRODUCTOS
 WHERE Nombre_producto LIKE concat('%',Nombre_product,'%');
-END;
-delimiter // 
-
+END//;
 -- -----------------------------------------------------
 -- Storerd Procedure - Agregar un nuevo miembro al personal
 -- -----------------------------------------------------
@@ -730,8 +723,7 @@ IN CUIT VARCHAR(45), IN Areas TEXT(45),IN F_ingreso DATETIME, IN CBU INT , IN Id
 BEGIN
 INSERT INTO PERSONAL (Nombre_personal,Direccion,Provincia,Localidad,CP,Mail,Telefono,CUIT,Nombre_area,Fecha_de_ingreso,CBU,Id_sucursal) 
 VALUES (Nom, Direc,Prov,Locali,CP,Mail,Tel,CUIT,Areas,F_ingreso,CBU,Id_sucursal);
-END;
-delimiter // 
+END//;
 
 -- -----------------------------------------------------
 -- Storerd Procedure - Precio Prodcutos
@@ -742,13 +734,12 @@ BEGIN
 select count(*)
 from PRODUCTOS
 WHERE Precio_x_unidad LIKE concat(precio);
-END;
-delimiter // 
+END//; 
 
 -- -----------------------------------------------------
 -- Storerd Procedure - Ordenacion clientes de forma ascendente o descendente
 -- -----------------------------------------------------
-delimiter // 
+delimiter //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ordenacion_cliente`(in Campo varchar(50), in asc_desc text(4))
 BEGIN
 	set @or_asc_desc = asc_desc;
@@ -761,22 +752,20 @@ BEGIN
     PREPARE runSQL from @clausula;
     EXECUTE runSQL;
     DEALLOCATE PREPARE runSQL;
-END;
-delimiter // 
+END//
+delimiter ;
 
--- -----------------------------------------------------
--- TRIGGERS
--- -----------------------------------------------------
+
 -- -----------------------------------------------------
 -- TRIGGER`. AFTER - CREACION DE EMPLEADOS
 -- -----------------------------------------------------
-/*CREATE TABLE `MOVIMIENTOS` (
+CREATE TABLE `MOVIMIENTOS` (
   `Id_Movimientos` int NOT NULL AUTO_INCREMENT,
   `Descripcion_movimiento` varchar(200) DEFAULT NULL,
   `Fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   `USUARIO` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id_Movimientos`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -784,14 +773,16 @@ DELIMITER //
 CREATE TRIGGER log_creacion_empleado after insert on `Kalimera Distribution`.PERSONAL
 FOR EACH ROW BEGIN
 	INSERT INTO MOVIMIENTOS (Descripcion_movimiento, USUARIO)
-    VALUES (concat('Se sumo un nuevo miembro al staff: ',NEW.Nombre_personal,' ','ID: ',NEW.Id_personal,'Sucursal: ',' ',NEW.Id_sucursal),CURRENT_USER() );
+    VALUES (concat('Se sumo un nuevo miembro al staff: ',NEW.Nombre_personal,'ID: ',NEW.Id_personal,'Sucursal: ',NEW.Id_sucursal),CURRENT_USER());
 end//
 delimiter ;
 
 
 
 INSERT INTO PERSONAL (Id_personal, Nombre_personal, Direccion, Provincia, Localidad, CP, Mail, Telefono, CUIT, Nombre_area, Fecha_de_ingreso, CBU, Id_sucursal) 
-VALUES (12, 'COSTA KALIMERA', 'IRUYA 784', 'SALTA', 'CAPITAL', 4400, 'c.kametra@gmail.com', '0387-4958745', '20-19387965-4', 'ADMINISTRACION', '2002-01-01', 235689745, 1);
+VALUES (11, 'COSTA KALIMERA', 'IRUYA 784', 'SALTA', 'CAPITAL', 4400, 'c.kametra@gmail.com', '0387-4958745', '20-19387965-4', 'ADMINISTRACION', '2002-01-01', 235689745, 1);
+INSERT INTO PERSONAL (Id_personal, Nombre_personal, Direccion, Provincia, Localidad, CP, Mail, Telefono, CUIT, Nombre_area, Fecha_de_ingreso, CBU, Id_sucursal) 
+VALUES('12', 'MAURO CATO', 'LOS TILOS 987', 'SALTA', 'CAPITAL', '4400', 'm.cato@gmail.com', '0387-5896532', '20-38458977-4', 'STOCK', '2021-05-09 00:00:00', '235689741', '1');
 
 SELECT * FROM `Kalimera Distribution`.PERSONAL;
 SELECT * FROM`Kalimera Distribution`.MOVIMIENTOS;
@@ -801,13 +792,14 @@ SELECT * FROM`Kalimera Distribution`.MOVIMIENTOS;
 -- -----------------------------------------------------
 -- TRIGGER`. BEFORE - CAMBIO DE PRECIO DE PRODUCTOS 
 -- -----------------------------------------------------
-/*CREATE TABLE `PRECIOS_ACTUALIZADOS` (
+CREATE TABLE `PRECIOS_ACTUALIZADOS` (
   `Nombre_producto` varchar(45) DEFAULT NULL,
   `Precio_x_unidad` decimal(12,0) DEFAULT NULL,
   `Precio_x_unidad_nuevo` decimal(12,0) DEFAULT NULL,
   `Usuario` varchar(45) DEFAULT NULL,
   `Fecha` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 CREATE TRIGGER tg_actualizacion_precios  BEFORE UPDATE ON `Kalimera Distribution`.PRODUCTOS
 FOR EACH ROW INSERT INTO PRECIOS_ACTUALIZADOS (Nombre_producto, Precio_x_unidad, Precio_x_unidad_nuevo, Usuario) 
@@ -816,12 +808,6 @@ VALUES (OLD.Nombre_producto, OLD.Precio_x_unidad, NEW.Precio_x_unidad, CURRENT_U
 
 
 update PRODUCTOS set Precio_x_unidad = 561.00 where Id_producto = 1;
-
-
- SELECT * FROM `Kalimera Distribution`.PRODUCTOS;
- SELECT * FROM `Kalimera Distribution`.PRECIOS_ACTUALIZADOS;
-
-
 -- -----------------------------------------------------
 -- Usuarios
 -- -----------------------------------------------------
@@ -869,9 +855,9 @@ rollback;
 -- CONFIRMAMOS LOS CAMBIOS
 COMMIT;
 -- SENTENCIA DE RECUPERACION DE REGISTROS BORRADOS
-INSERT INTO PEDIDOS (Id_pedido, Id_proveedor, Id_sucursal, Direccion, Provincia, Localidad, CP, Mail, Telefono, CUIT, IVA, Fecha, Id_producto, Cantidad, Precio_x_unidad, Tipo_de_Factura, TotalNeto) 
+/*INSERT INTO PEDIDOS (Id_pedido, Id_proveedor, Id_sucursal, Direccion, Provincia, Localidad, CP, Mail, Telefono, CUIT, IVA, Fecha, Id_producto, Cantidad, Precio_x_unidad, Tipo_de_Factura, TotalNeto) 
 VALUES (7, 2, 1, 'RIVADAVIA 660', 'SALTA', 'CAPITAL', 4400, 'kalim_salta@gmail.com', '0387-4224255', '24-35897856-4', 'AR', '2023-07-24', NULL, 15, '890.00', 'A', 13350.00);
-INSERT INTO `TI -PRODUCTOS PEDIDOS` (Id_producto, Id_pedido) VALUES (10, 7);
+INSERT INTO `TI -PRODUCTOS PEDIDOS` (Id_producto, Id_pedido) VALUES (10, 7);*/
 
 -- -----------------------------------------------------
 -- TCL TABLA 2
@@ -890,7 +876,7 @@ INSERT INTO PRODUCTOS (Id_producto, Nombre_producto, Codigo_rubro, Nombre_rubro,
 VALUES (13, 'FANTA 1.50L', 1, 'BEBIDAS', 2, 750.00, 6, 50, '0%', 100, 'STOCK');
 INSERT INTO PRODUCTOS (Id_producto, Nombre_producto, Codigo_rubro, Nombre_rubro, Id_proveedor, Precio_x_unidad, Unidades_x_Bulto, Unidades_x_Pallets, Descuentos, Stock, Nombre_area) 
 VALUES (14, 'FANTA 2.25L', 1, 'BEBIDAS', 2, 1100.00, 6, 50, '0%', 900, 'STOCK');
-SELECT * FROM `Kalimera Distribution`.PRODUCTOS;
+-- SELECT * FROM `Kalimera Distribution`.PRODUCTOS;
 -- INSERTAMOS SAVEPOINT LOTE_1
 savepoint lote_1;
 -- INSERTAMOS REGISTROS 4-8
